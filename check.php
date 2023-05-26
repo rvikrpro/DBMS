@@ -42,21 +42,22 @@
 
     // Select the database
     mysqli_select_db($conn, "airline");
-
     
     // Fetch flights from flights table based on the given inputs
     $query = "SELECT f.Flight_ID, a.AC_Model, a.Capacity, f.Departure, f.Arrival, af.Charge_Amount, 
+    c1.Country_Name,c2.Country_Name,
     ap1.Air_Name AS Departure_Airport, ap2.Air_Name AS Arrival_Airport,
-    ap1.City AS From_City, ap2.City AS To_City
+    ap1.City AS From_City, ap2.City AS To_City,c1.Country_Name AS From_Country,c2.Country_Name AS To_Country
 FROM Flight f
 INNER JOIN AirCraft a ON f.A_ID = a.A_ID
 INNER JOIN AirFare af ON f.Flight_ID = af.Flight_ID
 INNER JOIN Airport ap1 ON f.Departure = ap1.City
+INNER JOIN Countries c1 ON ap1.Country_code = c1.Country_code
 INNER JOIN Airport ap2 ON f.Arrival = ap2.City
+INNER JOIN Countries c2 ON ap2.Country_code = c2.Country_code
 WHERE f.Departure= '$from' AND f.Arrival = '$to' AND f.Flight_Date = '$date'";
     
     $result = mysqli_query($conn, $query);
-    
     // Display flights and additional information
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -66,7 +67,9 @@ WHERE f.Departure= '$from' AND f.Arrival = '$to' AND f.Flight_Date = '$date'";
             echo "<p>Aircraft Model: " . $row['AC_Model'] . "</p>";
             echo "<p>Aircraft Capacity: " . $row['Capacity'] . "</p>";
             echo "<p>From City: " . $row['From_City'] . "</p>";
+            echo "<p>From Country: " . $row['From_Country'] . "</p>";
             echo "<p>To City: " . $row['To_City'] . "</p>";
+            echo "<p>To Country: " . $row['To_Country'] . "</p>";
             echo "<p>Airfare: " . $row['Charge_Amount'] . "</p>";
             echo "<p>From Airport: " . $row['Departure_Airport'] . "</p>";
             echo "<p>To Airport: " . $row['Arrival_Airport'] . "</p>";
@@ -75,11 +78,8 @@ WHERE f.Departure= '$from' AND f.Arrival = '$to' AND f.Flight_Date = '$date'";
     } else {
         echo "No flights found.";
     }
-    
     // Close the database connection
     mysqli_close($conn);}
     ?>
-    
 </body>
 </html>
-
