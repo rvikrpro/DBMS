@@ -5,15 +5,56 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .box {
-      border: 1px solid #ccc;
       padding: 10px;
       margin-bottom: 20px;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+      background-color: #000142;
+
+    }
+    body {
+      background-color: #000168;
+      color: white;
+      font-family: 'Bahnschrift SemiBold', sans-serif;
+    }
+   
+    .custom-navbar {
+      background-color: #000142 !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    form {
+      text-align: center;
+    }
+    label,
+    input[type="text"],
+    input[type="submit"] {
+      margin: 5px;
+    }
+    input[type="text"] {
+      background-color: #00028e;
+      color: white;
+      border-radius: 5px;
+      padding: 5px;
+      border: none;
+      outline: none;
+    }
+    input[type="submit"] {
+      background-color: #000142;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+    }
+    input[type="submit"]:hover {
+      background-color: #000168;
     }
   </style>
 </head>
 <body>
      <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top custom-navbar">
     <a class="navbar-brand" href="#">Airline Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -39,7 +80,7 @@
     </div>
   </nav>
   <br/><br/><br/>
-  <h2>Flight Details</h2>
+  <h2 style="margin-left: 25px">Flight Details</h2>
   <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="flightId">Enter Flight ID:</label>
     <input type="text" name="flightId" id="flightId" required>

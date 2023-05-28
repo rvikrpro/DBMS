@@ -4,19 +4,74 @@
   <title>Flight Search</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    .flight-box {
-      border: 1px solid #ccc;
+    body {
+      background-color: #000168;
+      color: white;
+      font-family: 'Bahnschrift SemiBold', sans-serif;
+    }
+    .custom-navbar {
+      background-color: #000142 !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 20px;
+    }
+    .container2 {
+      display: flex;
+      flex-direction: column;
+      margine-left: 25px;
+      justify-content: flex-start;
+      padding-top: 80px;
+    }
+    form {
+      text-align: center;
+    }
+    label,
+    input[type="text"],
+    input[type="date"],
+    input[type="submit"] {
+      margin: 5px;
+    }
+    input[type="text"],
+    input[type="date"] {
+      background-color: #00028e;
+      color: white;
+      border-radius: 5px;
+      padding: 5px;
+      border: none;
+      outline: none;
+    }
+    input[type="submit"] {
+      background-color: #000142;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+    }
+    input[type="submit"]:hover {
+      background-color: #000168;
+    }
+    .flight-box{
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      margin-left: 20px;
+      margin-right: 20px;
+      background-color: #000142;
     }
   </style>
 </head>
 <body>
-   <!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top custom-navbar">
     <a class="navbar-brand" href="#">Airline Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
@@ -38,19 +93,25 @@
       </ul>
     </div>
   </nav>
-  <br/><br/><br/>
-  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-    <label for="from">From:</label>
-    <input type="text" name="from" id="from" required>
+  <div class="container2">
+  <h2 style="margin-left: 25px">Flight Search</h2>
+  </div>
+  <div class="container">
+  
 
-    <label for="to">To:</label>
-    <input type="text" name="to" id="to" required>
-
-    <label for="date">Date:</label>
-    <input type="date" name="date" id="date" required>
-
-    <input type="submit" value="Search Flights">
-  </form>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+      <label for="from">From:</label>
+      <input type="text" name="from" id="from" required>
+  
+      <label for="to">To:</label>
+      <input type="text" name="to" id="to" required>
+  
+      <label for="date">Date:</label>
+      <input type="date" name="date" id="date" required>
+  
+      <input type="submit" value="Search Flights">
+    </form>
+  </div>
 
   <?php
   // Check if the form is submitted
@@ -89,7 +150,6 @@ WHERE f.Departure= '$from' AND f.Arrival = '$to' AND f.Flight_Date = '$date'";
     // Display flights and additional information
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-            echo '<br/>';
             echo '<div class="flight-box">';
             echo "<p>Flight Number: " . $row['Flight_ID'] . "</p>";
             echo "<p>Aircraft Model: " . $row['AC_Model'] . "</p>";

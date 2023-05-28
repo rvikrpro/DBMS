@@ -4,26 +4,103 @@
   <title>Passenger Management</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    
+    body {
+      background-color: #000168;
+      color: white;
+      font-family: 'Bahnschrift SemiBold', sans-serif;
+    }
+    #b1, #b2 {
+      margin: 5px;
+      background-color: #000142;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    #b1:hover, #b2:hover {
+      background-color: #000168;
+    }
+    .custom-navbar {
+      background-color: #000142 !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      padding-top: 100px;
+    }
+    form {
+      text-align: center;
+    }
+    label,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="submit"] {
+      margin: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"] {
+      background-color: #00028e;
+      color: white;
+      border-radius: 5px;
+      padding: 5px;
+      border: none;
+      outline: none;
+    }
+    input[type="submit"] {
+      background-color: #000142;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.4);
+    }
+    input[type="submit"]:hover {
+      background-color: #000168;
+    }
     table {
       border-collapse: collapse;
       width: 100%;
+      margin-top: 20px;
+      background-color: #000142;
+      color: white;
     }
     th, td {
-      border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
     }
-    .passenger-form{
-        margin-bottom: 20px;
+    th {
+      background-color: #000168;
     }
-    #b1{border:2px solid green;}
-    #b2{border:none;}
+    tr {
+      background-color: #00028e;
+    }
+    tr:hover {
+      background-color: #000142;
+    }
+    .passenger-form{
+        margin-left: 25px;
+    }
+    .form-container {
+      margin-left: 30px;     
+      margin-bottom: 20px;
+
+    }
+    .form-container h3 {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
    <!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top custom-navbar">
     <a class="navbar-brand" href="#">Airline Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -49,24 +126,26 @@
     </div>
   </nav>
   <br/><br/><br/>
-<script>
-        
-        function f1(){
-            document.getElementById("ins").style.display="block";
-            document.getElementById("del").style.display="none";
-            document.getElementById("b1").style.border="2px solid green";
-            document.getElementById("b2").style.border="none";
-        }
-        function f2(){
-            document.getElementById("ins").style.display="none";
-            document.getElementById("del").style.display="block";
-            document.getElementById("b2").style.border="2px solid green";
-            document.getElementById("b1").style.border="none";
-        }
-        </script>
-  <h2>Passenger Management</h2>
-<button id="b1" onCLick="f1()">Book</button>
-<button id="b2" onCLick="f2()">Cancel</button>
+  <script>
+    function f1(){
+        document.getElementById("ins").style.display="block";
+        document.getElementById("del").style.display="none";
+        document.getElementById("b1").style.border="2px solid green";
+        document.getElementById("b2").style.border="none";
+    }
+    function f2(){
+        document.getElementById("ins").style.display="none";
+        document.getElementById("del").style.display="block";
+        document.getElementById("b2").style.border="2px solid green";
+        document.getElementById("b1").style.border="none";
+    }
+  </script>
+  <h2 style="margin-left: 25px">Passenger Management</h2>
+  <div class="form-container">
+    <button id="b1" onclick="f1()">Book</button>
+    <button id="b2" onclick="f2()">Cancel</button>
+  </div>
+  
   <!-- Insert Passenger Form -->
   <div class="passenger-form" id="ins" style="display:block;">
     <h3>Book a Flight</h3>
@@ -92,7 +171,7 @@
       <label for="flight">Flight ID:</label>
       <input type="text" name="flight" id="flight" required>
 
-      <input type="submit" name="book" value="Book">
+      <input id="b1" type="submit" name="book" value="Book">
     </form>
   </div>
 
@@ -106,9 +185,7 @@
       <input type="text" name="passengerPhone" id="passengerPhone" required>
       <input type="submit" name="cancel" value="Cancel">
     </form>
-    </div>
-    
-  
+  </div>
 
   <?php
   // Check if the form is submitted
@@ -156,15 +233,15 @@
 
       // Prepare the SQL statement
       $stmt = mysqli_prepare($conn, "DELETE FROM Passengers WHERE P_ID = ? AND Contacts = ?");
-      mysqli_stmt_bind_param($stmt, "ii", $passengerId,$passengerPhone);
+      mysqli_stmt_bind_param($stmt, "ii", $passengerId, $passengerPhone);
 
       // Execute the prepared statement
       if (mysqli_stmt_execute($stmt)) {
         if (mysqli_stmt_affected_rows($stmt) > 0) {
-            echo "Booking canceled successfully.";
-          } else {
-            echo "No booking found matching the provided ID and phone.";
-          }
+          echo "Booking canceled successfully.";
+        } else {
+          echo "No booking found matching the provided ID and phone.";
+        }
       } else {
         echo "Error: " . mysqli_error($conn);
       }
@@ -179,7 +256,7 @@
   ?>
 
   <!-- Display Passengers -->
-  <h3>Passengers</h3>
+  <h3 style="margin-left: 25px; margin-bottom: 10px; margin-top: 20px">Passengers</h3>
   <table>
     <tr>
       <th>ID</th>
@@ -221,6 +298,5 @@
     mysqli_close($conn);
     ?>
   </table>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
